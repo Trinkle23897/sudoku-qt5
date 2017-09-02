@@ -103,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     QDir dir;
     player=new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile(dir.currentPath()+"/../sudoku/LuvLetter.mp3"));
+    player->setMedia(QUrl::fromLocalFile(dir.currentPath()+"/../sudoku/LuvLetter.wav"));
 }
 
 void MainWindow::loadprob(int clear)
