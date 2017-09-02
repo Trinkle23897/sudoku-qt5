@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
-    <height>501</height>
+    <width>661</width>
+    <height>515</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>661</width>
+    <height>515</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>661</width>
+    <height>515</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Sudoku Game - Powered by n+e</string>
@@ -125,7 +137,7 @@
         <string notr="true">background-color: rgba(85, 170, 255, 150);</string>
        </property>
        <property name="text">
-        <string>New Game</string>
+        <string>Start</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -144,7 +156,7 @@
         <string notr="true">background-color: rgba(85, 170, 255, 150);</string>
        </property>
        <property name="text">
-        <string>Show Tips</string>
+        <string>Tips</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -263,7 +275,7 @@
        <item>
         <widget class="QLabel" name="label_9">
          <property name="text">
-          <string> I</string>
+          <string>I</string>
          </property>
         </widget>
        </item>
@@ -379,7 +391,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>667</width>
+     <width>661</width>
      <height>31</height>
     </rect>
    </property>
@@ -456,7 +468,6 @@
    </attribute>
    <addaction name="actionInfo"/>
    <addaction name="actionPause"/>
-   <addaction name="actionStart"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="actionReset"/>
@@ -472,6 +483,9 @@
    </property>
    <property name="toolTip">
     <string>Infomation</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+I</string>
    </property>
   </action>
   <action name="actionStart">
@@ -493,6 +507,9 @@
    </property>
    <property name="toolTip">
     <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionReset">
@@ -518,6 +535,9 @@
    <property name="toolTip">
     <string>Pause</string>
    </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
   </action>
   <action name="actionRedo">
    <property name="icon">
@@ -529,6 +549,9 @@
    </property>
    <property name="toolTip">
     <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="actionNew">

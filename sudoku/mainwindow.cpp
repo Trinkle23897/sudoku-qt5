@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    select_x=select_y=0;level=1;stage=0;history_temp=-1;wrongstate=0;
+    select_x=select_y=0;level=1;stage=0;history_temp=-1;wrongstate=0;state=0;
     //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     ui->setupUi(this);
     Timer=new QTimer;
@@ -42,14 +42,21 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->gridLayout_2->addWidget(num[cnt],i-1,j-1,1,1);
             connect(num[cnt],SIGNAL(clicked(bool)),this,SLOT(on_num_clicked()));
         }
-    QIcon icon;
+    QIcon icon,icon2;
     icon.addFile(QStringLiteral(":/fig/mark"));
+    icon2.addFile(":fig/xxx");
     record_button=new QPushButton;
     record_button->setIcon(icon);
     record_button->setFlat(true);
     record_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(record_button,SIGNAL(clicked(bool)),this,SLOT(on_mark_button_clicked()));
     ui->gridLayout_2->addWidget(record_button,3,1,1,1);
+    delete_button=new QPushButton;
+    delete_button->setIcon(icon2);
+    delete_button->setFlat(true);
+    delete_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    connect(delete_button,SIGNAL(clicked(bool)),this,SLOT(on_del_button_clicked()));
+    ui->gridLayout_2->addWidget(delete_button,3,0,1,1);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableWidget->setColumnCount(15);
     ui->tableWidget->setRowCount(15);
@@ -191,7 +198,7 @@ void MainWindow::newgame()
         else if(stage==4)
             prob.init("286.15.4...467325.37.2.8.6.7.91246..6..387..5..85967.1.9.4.1.72.678529...4.73.816");
         else
-            sol.generate_range(30,40,1),prob=sol.a;
+            sol.generate_range(20,36,1),prob=sol.a;
     }
     else if(level==2)
     {
@@ -272,6 +279,9 @@ QString MainWindow::chg012s(int x)
 void MainWindow::pause()
 {
     if(state!=1||level==0)return;
+    QIcon icon;
+    icon.addFile(":/fig/play");
+    ui->actionPause->setIcon(icon);
     state=2;
     Timer->stop();
     for(int i=0;i<9;++i)
@@ -290,6 +300,9 @@ void MainWindow::pause()
 void MainWindow::continuegame()
 {
     if(state!=2||level==0)return;
+    QIcon icon;
+    icon.addFile(":fig/pause");
+    ui->actionPause->setIcon(icon);
     state=1;
     Timer->start(1000);
     refreshsxy(0);
@@ -466,6 +479,18 @@ void MainWindow::addnumber(int num)
     }
 }
 
+void MainWindow::deletegrid()
+{
+    if(level==0){
+        prob.m[select_x][select_y]=0;
+        m.m[select_x][select_y]=0;
+    }
+    else if(prob.m[select_x][select_y]==0){
+        m.m[select_x][select_y]=0;
+//            button[select_x][select_y]->setText(QString(" "));
+    }
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {//qDebug()<<"key pressed";
     if(state!=1)return;
@@ -482,14 +507,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     }
     switch (e->key()){
     case Qt::Key_Delete:
-        if(level==0){
-            prob.m[select_x][select_y]=0;
-            m.m[select_x][select_y]=0;
-        }
-        else if(prob.m[select_x][select_y]==0){
-            m.m[select_x][select_y]=0;
-//            button[select_x][select_y]->setText(QString(" "));
-        }
+        deletegrid();
         break;
 //    case Qt::Key_Up:
     case Qt::Key_I:
@@ -545,7 +563,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionInfo_triggered()
 {
-    QMessageBox::information(this,tr("Hint"),tr("23333\n2333"),tr("Meow~"));
+    QString mes;
+    mes+="\nThank you for playing this game.\n";
+    mes+="Hint:\n";
+    mes+="    New Game (Alt+N): choose different more and level;\n";
+    mes+="    Easy mode:   20~36 blank grid;\n";
+    mes+="    Normal mode: 42~48 blank grid;\n";
+    mes+="    Hard mode:   53~57 blank grid;\n";
+    mes+="    Crazy mode:  58~81 blank grid, **please be patient**;\n";
+    mes+="    Custom mode: you can input sudoku game by yourself;\n";
+    mes+="\n";
+    mes+="This program ensure problems with Easy/Normal/Hard/Crazy mode have only one solution.\n";
+    mes+="\n";
+    mes+="    Key W/A/S/D or I/J/K/L: Up/Left/Down/Right;\n";
+    mes+="    Key 1-9: add a number to a certain grid;\n";
+    mes+="    Key M: mark a flag on a certain grid;\n";
+    mes+="    Key Delete: delete all numbers in a certain grid;\n";
+    mes+="    Key Space: pause/start;\n";
+    mes+="\nHave fun!\n";
+    QMessageBox::information(this,tr("Sudoku game"),mes);
 }
 
 void MainWindow::paintEvent(QPaintEvent*)
@@ -653,7 +689,10 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_actionPause_triggered()
 {
-    pause();
+    if(state==1)
+        pause();
+    else if(state==2)
+        continuegame();
 }
 
 void MainWindow::on_actionStart_triggered()
@@ -679,128 +718,32 @@ void MainWindow::on_mark_button_clicked()
     markgrid();
 }
 
-void MainWindow::on_actionLv_1_triggered()
+void MainWindow::on_del_button_clicked()
 {
-    level=1;stage=1;
-    newgame();
+    //qDebug()<<"delete "<<state;
+    if(state!=1)return;
+    deletegrid();
+    refreshsxy(1);
 }
 
-void MainWindow::on_actionLevel_2_triggered()
-{
-    level=1;stage=2;
-    newgame();
-}
-
-void MainWindow::on_actionLv_3_triggered()
-{
-    level=1;stage=3;
-    newgame();
-}
-
-void MainWindow::on_actionLv_4_triggered()
-{
-    level=1;stage=4;
-    newgame();
-}
-
-void MainWindow::on_actionLv_5_triggered()
-{
-    level=2;stage=1;
-    newgame();
-}
-
-void MainWindow::on_actionLv_6_triggered()
-{
-    level=2;stage=2;
-    newgame();
-}
-
-void MainWindow::on_actionLv_7_triggered()
-{
-    level=2;stage=3;
-    newgame();
-}
-
-void MainWindow::on_actionLv_8_triggered()
-{
-    level=2;stage=4;
-    newgame();
-}
-
-void MainWindow::on_actionLv_9_triggered()
-{
-    level=3;stage=1;
-    newgame();
-}
-
-void MainWindow::on_actionLv_10_triggered()
-{
-    level=3;stage=2;
-    newgame();
-}
-
-void MainWindow::on_actionLv_11_triggered()
-{
-    level=3;stage=3;
-    newgame();
-}
-
-void MainWindow::on_actionLv_12_triggered()
-{
-    level=3;stage=4;
-    newgame();
-}
-
-void MainWindow::on_actionRandom_triggered()
-{
-    level=1;stage=0;
-    newgame();
-}
-
-void MainWindow::on_actionRandom_2_triggered()
-{
-    level=2;stage=0;
-    newgame();
-}
-
-void MainWindow::on_actionRandom_3_triggered()
-{
-    level=3;stage=0;
-    newgame();
-}
-
-void MainWindow::on_actionLv_13_triggered()
-{
-    level=4;stage=1;
-    newgame();
-}
-
-void MainWindow::on_actionLv_14_triggered()
-{
-    level=4;stage=2;
-    newgame();
-}
-
-void MainWindow::on_actionLv_15_triggered()
-{
-    level=4;stage=3;
-    newgame();
-}
-
-void MainWindow::on_actionLv_16_triggered()
-{
-    level=4;stage=4;
-    newgame();
-}
-
-void MainWindow::on_actionRandom_4_triggered()
-{
-    level=4;stage=0;
-    newgame();
-}
-
-void MainWindow::on_actionInput_Sudoku_Game_triggered()
-{
-    level=0;
-    newgame();
-}
+void MainWindow::on_actionLv_1_triggered(){level=1;stage=1;newgame();}
+void MainWindow::on_actionLv_2_triggered(){level=1;stage=2;newgame();}
+void MainWindow::on_actionLv_3_triggered(){level=1;stage=3;newgame();}
+void MainWindow::on_actionLv_4_triggered(){level=1;stage=4;newgame();}
+void MainWindow::on_actionLv_5_triggered(){level=2;stage=1;newgame();}
+void MainWindow::on_actionLv_6_triggered(){level=2;stage=2;newgame();}
+void MainWindow::on_actionLv_7_triggered(){level=2;stage=3;newgame();}
+void MainWindow::on_actionLv_8_triggered(){level=2;stage=4;newgame();}
+void MainWindow::on_actionLv_9_triggered(){level=3;stage=1;newgame();}
+void MainWindow::on_actionLv_10_triggered(){level=3;stage=2;newgame();}
+void MainWindow::on_actionLv_11_triggered(){level=3;stage=3;newgame();}
+void MainWindow::on_actionLv_12_triggered(){level=3;stage=4;newgame();}
+void MainWindow::on_actionLv_13_triggered(){level=4;stage=1;newgame();}
+void MainWindow::on_actionLv_14_triggered(){level=4;stage=2;newgame();}
+void MainWindow::on_actionLv_15_triggered(){level=4;stage=3;newgame();}
+void MainWindow::on_actionLv_16_triggered(){level=4;stage=4;newgame();}
+void MainWindow::on_actionRandom_triggered(){level=1;stage=0;newgame();}
+void MainWindow::on_actionRandom_2_triggered(){level=2;stage=0;newgame();}
+void MainWindow::on_actionRandom_3_triggered(){level=3;stage=0;newgame();}
+void MainWindow::on_actionRandom_4_triggered(){level=4;stage=0;newgame();}
+void MainWindow::on_actionInput_Sudoku_Game_triggered(){level=0;stage=0;newgame();}

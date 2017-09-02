@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QString>
+#include <ctime>
 
 extern const int pos[9][9];
 
