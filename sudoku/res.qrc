@@ -25,5 +25,8 @@
         <file alias="minus">control/png/minus.png</file>
         <file alias="next">control/png/next-1.png</file>
         <file alias="mark">control/png/record.png</file>
+        <file alias="mute">control/png/muted.png</file>
+        <file alias="music">control/png/volume-1.png</file>
+        <file alias="mp3">LuvLetter.mp3</file>
     </qresource>
 </RCC>

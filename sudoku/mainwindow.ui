@@ -76,8 +76,6 @@
       </size>
      </property>
     </widget>
-    <zorder>timer</zorder>
-    <zorder>tableWidget</zorder>
    </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
@@ -115,7 +113,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -184,7 +182,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -283,7 +281,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -471,6 +469,7 @@
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="actionReset"/>
+   <addaction name="actionMusic"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionInfo">
@@ -758,6 +757,18 @@
   <action name="actionInput_Sudoku_Game">
    <property name="text">
     <string>Input Sudoku Game</string>
+   </property>
+  </action>
+  <action name="actionMusic">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/fig/mute</normaloff>:/fig/mute</iconset>
+   </property>
+   <property name="text">
+    <string>music</string>
+   </property>
+   <property name="toolTip">
+    <string>Play music</string>
    </property>
   </action>
  </widget>

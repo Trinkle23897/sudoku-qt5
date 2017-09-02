@@ -10,6 +10,7 @@
 #include <QGroupBox>
 #include <QTextCodec>
 #include <QPainter>
+#include <QDir>
 
 static QFont gamefont("Ubuntu",16);//,QFont::Bold);
 static QFont smallfont("Ubuntu",10);
@@ -100,15 +101,9 @@ MainWindow::MainWindow(QWidget *parent) :
             button[i][j]->setFocusPolicy(Qt::NoFocus);
         }
     }
-    /*
-    player=new QMediaPlayer();
-    player->setMedia(QUrl::fromLocalFile("..."));
-    if(player->state()==QMediaPlayer::PlayingState)player->pause();
-    else{
-        player->setVolume(30);
-        player->play();
-    }
-    */
+    QDir dir;
+    player=new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile(dir.currentPath()+"/../sudoku/LuvLetter.mp3"));
 }
 
 void MainWindow::loadprob(int clear)
@@ -747,3 +742,22 @@ void MainWindow::on_actionRandom_2_triggered(){level=2;stage=0;newgame();}
 void MainWindow::on_actionRandom_3_triggered(){level=3;stage=0;newgame();}
 void MainWindow::on_actionRandom_4_triggered(){level=4;stage=0;newgame();}
 void MainWindow::on_actionInput_Sudoku_Game_triggered(){level=0;stage=0;newgame();}
+
+void MainWindow::on_actionMusic_triggered()
+{
+    if(player->state()==QMediaPlayer::PlayingState)
+    {//turn off
+        QIcon icon;
+        icon.addFile(":/fig/mute");
+        ui->actionMusic->setIcon(icon);
+        player->pause();
+    }
+    else
+    {//turn on
+        QIcon icon;
+        icon.addFile(":/fig/music");
+        ui->actionMusic->setIcon(icon);
+        player->setVolume(30);
+        player->play();
+    }
+}

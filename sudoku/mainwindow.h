@@ -9,7 +9,7 @@
 #include <QGridLayout>
 #include <QTableWidget>
 #include <QVector>
-//#include <QMediaPlayer>
+#include <QMediaPlayer>
 #include "solver.h"
 
 namespace Ui {
@@ -30,6 +30,7 @@ private:
         level,state,history_temp;//0:empty, 1:start, 2:pause, 3:end
     QVector<Mat> history,hmark;
     QVector<qint32>hx,hy;
+    QMediaPlayer* player;
     //QTableWidget*table;
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -96,6 +97,7 @@ private slots:
     void on_actionRandom_3_triggered();
     void on_actionRandom_4_triggered();
     void on_actionInput_Sudoku_Game_triggered();
+    void on_actionMusic_triggered();
 };
 
 #endif // MAINWINDOW_H
