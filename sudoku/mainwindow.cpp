@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
             num[cnt]->setIcon(icon);
             num[cnt]->setFlat(true);
             num[cnt]->setAccessibleName(QString::number(cnt));
-            num[cnt]->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+//            num[cnt]->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
             //num[cnt]->setMinimumSize(40,40);
             ui->gridLayout_2->addWidget(num[cnt],i-1,j-1,1,1);
             connect(num[cnt],SIGNAL(clicked(bool)),this,SLOT(on_num_clicked()));
@@ -49,13 +49,13 @@ MainWindow::MainWindow(QWidget *parent) :
     record_button=new QPushButton;
     record_button->setIcon(icon);
     record_button->setFlat(true);
-    record_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+//    record_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(record_button,SIGNAL(clicked(bool)),this,SLOT(on_mark_button_clicked()));
     ui->gridLayout_2->addWidget(record_button,3,1,1,1);
     delete_button=new QPushButton;
     delete_button->setIcon(icon2);
     delete_button->setFlat(true);
-    delete_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+//    delete_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(delete_button,SIGNAL(clicked(bool)),this,SLOT(on_del_button_clicked()));
     ui->gridLayout_2->addWidget(delete_button,3,0,1,1);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
