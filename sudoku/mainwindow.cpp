@@ -104,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QDir dir;
     player=new QMediaPlayer;
     player->setMedia(QUrl::fromLocalFile(dir.currentPath()+"/../sudoku/LuvLetter.wav"));
+    showinfo();
 }
 
 void MainWindow::loadprob(int clear)
@@ -556,7 +557,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionInfo_triggered()
+void MainWindow::showinfo()
 {
     QString mes;
     mes+="\nThank you for playing this game.\n";
@@ -575,8 +576,17 @@ void MainWindow::on_actionInfo_triggered()
     mes+="    Key M: mark a flag on a certain grid;\n";
     mes+="    Key Delete: delete all numbers in a certain grid;\n";
     mes+="    Key Space: pause/start;\n";
+    mes+="    Ctrl+Z: Undo;\n";
+    mes+="    Ctrl+Y: Redo;\n";
+    mes+="    Ctrl+M: Play/Stop music;\n";
+    mes+="    Alt+I: Show this info;\n";
     mes+="\nHave fun!\n";
     QMessageBox::information(this,tr("Sudoku game"),mes);
+}
+
+void MainWindow::on_actionInfo_triggered()
+{
+    showinfo();
 }
 
 void MainWindow::paintEvent(QPaintEvent*)

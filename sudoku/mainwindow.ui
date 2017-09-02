@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
+    <width>668</width>
     <height>515</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>661</width>
+    <width>668</width>
     <height>515</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>661</width>
+    <width>668</width>
     <height>515</height>
    </size>
   </property>
@@ -37,7 +37,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>300</y>
+      <y>310</y>
       <width>111</width>
       <height>141</height>
      </rect>
@@ -389,7 +389,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>661</width>
+     <width>668</width>
      <height>31</height>
     </rect>
    </property>
@@ -769,6 +769,9 @@
    </property>
    <property name="toolTip">
     <string>Play music</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>

@@ -51,6 +51,7 @@ protected:
     void loadprob(int clear);
     void showsol(int origin);
     void showtip();
+    void showinfo();
     void redo();
     void undo();
     void markgrid();
