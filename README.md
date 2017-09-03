@@ -10,3 +10,6 @@ qmake -makefile
 make -j4 
 ./sudoku &
 ```
+Windows/Mac:
+
+Use qtcreator ...qwq
