@@ -1,4 +1,4 @@
-# sudoku-qt
+# sudoku-qt5
 sudoku game with qt5
 
 Ubuntu:
