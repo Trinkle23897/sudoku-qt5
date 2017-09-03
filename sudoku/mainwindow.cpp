@@ -114,9 +114,9 @@ MainWindow::MainWindow(QWidget *parent) :
             button[i][j]->setFocusPolicy(Qt::NoFocus);
         }
     }
-    QDir dir;
+//    QDir dir;
     player=new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile(dir.currentPath()+"/../sudoku/LuvLetter.wav"));
+    player->setMedia(QUrl("qrc:/fig/LuvLetter.wav"));//dir.currentPath()+"/../sudoku/LuvLetter.wav"));
     showinfo();
 }
 
