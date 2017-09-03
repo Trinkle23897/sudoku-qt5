@@ -119,7 +119,11 @@ void MainWindow::loadprob(int clear)
         }
     for(int i=0;i<9;++i)
         for(int j=0;j<9;++j)
+        {
             mark.m[i][j]=0;
+            if(level==0)
+                prob.m[i][j]=m.m[i][j]=0;
+        }
     if(clear)
     {
         history_temp=0;
@@ -183,60 +187,32 @@ void MainWindow::showsol(int origin)
 
 void MainWindow::newgame()
 {//level=1;stage=1;
-    if(level==1)
-    {
-        if(stage==1)
-            prob.init("369.5247885.6749317143.826568392715459741682..21835697138769.4224.5837199.52413.6");
-        else if(stage==2)
-            prob.init("...2..5.32.37569..59..317.21349278569.56.34.16821453977.956..34..13726.93.8..9...");
-        else if(stage==3)
-            prob.init("1597.3..8786245.93.4219..6549.3..651537...942621..9.8787..3621.26.8145799..5.7836");
-        else if(stage==4)
-            prob.init("286.15.4...467325.37.2.8.6.7.91246..6..387..5..85967.1.9.4.1.72.678529...4.73.816");
-        else
-            sol.generate_range(20,36,1),prob=sol.a;
+    if(level==1){
+        if(stage==1)      prob.init("369.5247885.6749317143.826568392715459741682..21835697138769.4224.5837199.52413.6");
+        else if(stage==2) prob.init("...2..5.32.37569..59..317.21349278569.56.34.16821453977.956..34..13726.93.8..9...");
+        else if(stage==3) prob.init("1597.3..8786245.93.4219..6549.3..651537...942621..9.8787..3621.26.8145799..5.7836");
+        else if(stage==4) prob.init("286.15.4...467325.37.2.8.6.7.91246..6..387..5..85967.1.9.4.1.72.678529...4.73.816");
+        else              sol.generate_range(20,36,1),prob=sol.a;
+    }else if(level==2){
+        if(stage==1)      prob.init("7...8...94.1..625...6.3..14.6..59.....9...1.....74..2.85..9.6...923..8.76...1...2");
+        else if(stage==2) prob.init("4....1.5.9.18.7.6.5.82.41...5..9.......7.5.......1..2...75.29.6.8.1.62.5.6.3....7");
+        else if(stage==3) prob.init("......1.....63.95.63..41.2...32.9...72.....91...8.37...4.12..89.95.64.....1......");
+        else if(stage==4) prob.init("......87.2....7.51.583..9.2..15..7.9...9.8...9.3..25..6.7..341.12.7....8.34......");
+        else              sol.generate_range(42,48,1),prob=sol.a;
+    }else if(level==3){
+        if(stage==1)      prob.init("6...3495...3.28...2......6.1.98..7.............2..94.1.2......4...27.5...3749...6");
+        else if(stage==2) prob.init(".31.97.6....6......2.....18.....5.29..2.7.5..95.1.....17.....3......9....9.86.24.");
+        else if(stage==3) prob.init("..7..13.9..6..8...4.3.7..1.1...2..3...........4..3...6.5..1.6.8...4..5..2.95..4..");
+        else if(stage==4) prob.init("..1....986...28.....8.76..1....9..25...4.7...59..6....7..24.9.....71...243....1..");
+        else              sol.generate_range(53,57,1),prob=sol.a;
+    }else if(level==4){
+        if(stage==1)      prob.init("8..........36......7..9.2...5...7.......457.....1...3...1....68..85...1..9....4..");
+        else if(stage==2) prob.init("16....7..7...3.......4...2.....173..9.......8..452.....1...6.......5...9..9....35");
+        else if(stage==3) prob.init(".3...58..6...9...........73...5..43...1...5...48..9...19...........3...5..57...1.");
+        else if(stage==4) prob.init("..2..7..4.....9.8..54.........47.8...6.....7...1.36.........16..3.9.....4..3..7..");
+        else              sol.generate_range(58,81,1),prob=sol.a;
     }
-    else if(level==2)
-    {
-        if(stage==1)
-            prob.init("7...8...94.1..625...6.3..14.6..59.....9...1.....74..2.85..9.6...923..8.76...1...2");
-        else if(stage==2)
-            prob.init("4....1.5.9.18.7.6.5.82.41...5..9.......7.5.......1..2...75.29.6.8.1.62.5.6.3....7");
-        else if(stage==3)
-            prob.init("......1.....63.95.63..41.2...32.9...72.....91...8.37...4.12..89.95.64.....1......");
-        else if(stage==4)
-            prob.init("......87.2....7.51.583..9.2..15..7.9...9.8...9.3..25..6.7..341.12.7....8.34......");
-        else
-            sol.generate_range(42,48,1),prob=sol.a;
-    }
-    else if(level==3)
-    {
-        if(stage==1)
-            prob.init("6...3495...3.28...2......6.1.98..7.............2..94.1.2......4...27.5...3749...6");
-        else if(stage==2)
-            prob.init(".31.97.6....6......2.....18.....5.29..2.7.5..95.1.....17.....3......9....9.86.24.");
-        else if(stage==3)
-            prob.init("..7..13.9..6..8...4.3.7..1.1...2..3...........4..3...6.5..1.6.8...4..5..2.95..4..");
-        else if(stage==4)
-            prob.init("..1....986...28.....8.76..1....9..25...4.7...59..6....7..24.9.....71...243....1..");
-        else
-            sol.generate_range(53,57,1),prob=sol.a;
-    }
-    else if(level==4)
-    {
-        if(stage==1)
-            prob.init("8..........36......7..9.2...5...7.......457.....1...3...1....68..85...1..9....4..");
-        else if(stage==2)
-            prob.init("16....7..7...3.......4...2.....173..9.......8..452.....1...6.......5...9..9....35");
-        else if(stage==3)
-            prob.init(".3...58..6...9...........73...5..43...1...5...48..9...19...........3...5..57...1.");
-        else if(stage==4)
-            prob.init("..2..7..4.....9.8..54.........47.8...6.....7...1.36.........16..3.9.....4..3..7..");
-        else
-            sol.generate_range(58,81,1),prob=sol.a;
-    }
-    else
-        prob.init(".................................................................................");
+    else                  prob.init(".................................................................................");
     sol.solve(prob,1);
     prob.print();
     loadprob(1);state=1;
@@ -376,7 +352,6 @@ void MainWindow::refreshsxy(int add)
                     button[i][j]->setAutoFillBackground(true);
                 }
                 button[i][j]->setFlat(true);
-
                 //button[i][j]->setAutoDefault(false);
                 //button[i][j]->setDefault(false);
             }
@@ -465,7 +440,7 @@ void MainWindow::addnumber(int num)
         prob.m[select_x][select_y]=num;
         m.m[select_x][select_y]=1<<num;
         refreshsxy(0);
-        qDebug()<<wrongstate;
+//        qDebug()<<wrongstate;
         if(wrongstate)
         {
             prob.m[select_x][select_y]=tmp1;
@@ -624,6 +599,15 @@ void MainWindow::undo()
     select_x=hx[history_temp];
     select_y=hy[history_temp];
     mark=hmark[history_temp];
+    if(level==0)
+    {
+        for(int i=0;i<9;++i)
+            for(int j=0;j<9;++j)
+                if(m.m[i][j])
+                    prob.m[i][j]=sol.idx[m.m[i][j]];
+                else
+                    prob.m[i][j]=0;
+    }
     refreshsxy(0);
 }
 
@@ -635,6 +619,15 @@ void MainWindow::redo()
     select_x=hx[history_temp];
     select_y=hy[history_temp];
     mark=hmark[history_temp];
+    if(level==0)
+    {
+        for(int i=0;i<9;++i)
+            for(int j=0;j<9;++j)
+                if(m.m[i][j])
+                    prob.m[i][j]=sol.idx[m.m[i][j]];
+                else
+                    prob.m[i][j]=0;
+    }
     refreshsxy(0);
 }
 
@@ -705,17 +698,8 @@ void MainWindow::on_actionStart_triggered()
     continuegame();
 }
 
-void MainWindow::on_actionUndo_triggered()
-{
-    if(state!=1)return;
-    undo();
-}
-
-void MainWindow::on_actionRedo_triggered()
-{
-    if(state!=1)return;
-    redo();
-}
+void MainWindow::on_actionUndo_triggered(){if(state!=1)return;undo();}
+void MainWindow::on_actionRedo_triggered(){if(state!=1)return;redo();}
 
 void MainWindow::on_mark_button_clicked()
 {
@@ -751,7 +735,7 @@ void MainWindow::on_actionRandom_triggered(){level=1;stage=0;newgame();}
 void MainWindow::on_actionRandom_2_triggered(){level=2;stage=0;newgame();}
 void MainWindow::on_actionRandom_3_triggered(){level=3;stage=0;newgame();}
 void MainWindow::on_actionRandom_4_triggered(){level=4;stage=0;newgame();}
-void MainWindow::on_actionInput_Sudoku_Game_triggered(){level=0;stage=0;newgame();}
+void MainWindow::on_actionInput_Sudoku_Game_triggered(){level=stage=0;newgame();}
 
 void MainWindow::on_actionMusic_triggered()
 {
