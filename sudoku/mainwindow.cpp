@@ -22,6 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
     select_x=select_y=0;level=1;stage=0;history_temp=-1;wrongstate=0;state=0;
     //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     ui->setupUi(this);
+    ui->pushButton->installEventFilter(this);
+    ui->pushButton_2->installEventFilter(this);
+    ui->pushButton_3->installEventFilter(this);
+    ui->pushButton->setFocusPolicy(Qt::NoFocus);
+    ui->pushButton_2->setFocusPolicy(Qt::NoFocus);
+    ui->pushButton_3->setFocusPolicy(Qt::NoFocus);
     Timer=new QTimer;
     Timerecord=new QTime(0,0,0,0);
     ui->timer->setDigitCount(8);
@@ -38,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
             num[cnt]->setIcon(icon);
             num[cnt]->setFlat(true);
             num[cnt]->setAccessibleName(QString::number(cnt));
+            num[cnt]->setFocusPolicy(Qt::NoFocus);
+            //num[cnt]->installEventFilter(this);
 //            num[cnt]->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
             //num[cnt]->setMinimumSize(40,40);
             ui->gridLayout_2->addWidget(num[cnt],i-1,j-1,1,1);
@@ -49,22 +57,26 @@ MainWindow::MainWindow(QWidget *parent) :
     record_button=new QPushButton;
     record_button->setIcon(icon);
     record_button->setFlat(true);
+    record_button->setFocusPolicy(Qt::NoFocus);
 //    record_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(record_button,SIGNAL(clicked(bool)),this,SLOT(on_mark_button_clicked()));
     ui->gridLayout_2->addWidget(record_button,3,1,1,1);
     delete_button=new QPushButton;
     delete_button->setIcon(icon2);
     delete_button->setFlat(true);
+    delete_button->setFocusPolicy(Qt::NoFocus);
 //    delete_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(delete_button,SIGNAL(clicked(bool)),this,SLOT(on_del_button_clicked()));
     ui->gridLayout_2->addWidget(delete_button,3,0,1,1);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setFocusPolicy(Qt::NoFocus);
     ui->tableWidget->setColumnCount(15);
     ui->tableWidget->setRowCount(15);
     ui->tableWidget->resize(404,404);
     ui->tableWidget->verticalHeader()->setVisible(false);
     ui->tableWidget->horizontalHeader()->setVisible(false);
     ui->tableWidget->setShowGrid(true);
+    ui->tableWidget->installEventFilter(this);
     for(int i=0;i<15;++i)
     {
         ui->tableWidget->setRowHeight(i,44);
@@ -86,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
             //button[i][j]->setMinimumSize(20,20);
             button[i][j]->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
             button[i][j]->setFont(gamefont);
+            button[i][j]->installEventFilter(this);
             ui->tableWidget->setBackgroundRole(QPalette::ColorRole());
             ui->tableWidget->setCellWidget(i<3?i+1:i<6?i+3:i+5,j<3?j+1:j<6?j+3:j+5,button[i][j]);
             button[i][j]->setAccessibleName(QString::number(i*9+j));
@@ -480,30 +493,32 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Delete:
         deletegrid();
         break;
-//    case Qt::Key_Up:
+    case Qt::Key_Up:
     case Qt::Key_I:
     case Qt::Key_W:
         select_x=(select_x+8)%9;
 //        qDebug()<<"key up";
         break;
-//    case Qt::Key_Down:
+    case Qt::Key_Down:
     case Qt::Key_K:
     case Qt::Key_S:
         select_x=(select_x+1)%9;
 //        qDebug()<<"key down";
         break;
-//    case Qt::Key_Left:
+    case Qt::Key_Left:
     case Qt::Key_J:
     case Qt::Key_A:
         select_y=(select_y+8)%9;
 //        qDebug()<<"key left";
         break;
-//    case Qt::Key_Right:
+    case Qt::Key_Right:
     case Qt::Key_L:
     case Qt::Key_D:
         select_y=(select_y+1)%9;
 //        qDebug()<<"key right";
         break;
+    default:
+        QWidget::keyPressEvent(e);
     }
     refreshsxy(0);
 //    qDebug()<<select_x<<" "<<select_y;
