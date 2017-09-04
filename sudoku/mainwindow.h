@@ -24,14 +24,15 @@ private:
     QTimer*Timer;
     QTime*Timerecord;
     qint32 select_x,select_y,wrongstate;
-    Mat m,prob,mark;
+    Mat m,prob,mark;//Mat m is stored in binary mode, e.g. (100010010)2 means selecting number 1,5,8
     Solver sol;
     qint32 stage,//0:random 1-4:...
-        level,state,history_temp;//0:empty, 1:start, 2:pause, 3:end
+        level,//0:custom, 1:easy, 2:normal, 3:hard, 4:crazy
+        state,//0:empty, 1:start, 2:pause, 3:end
+        history_temp;
     QVector<Mat> history,hmark;
     QVector<qint32>hx,hy;
     QMediaPlayer* player;
-    //QTableWidget*table;
 public:
     explicit MainWindow(QWidget *parent = 0);
     void paintEvent(QPaintEvent*);
@@ -39,10 +40,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QPushButton ***button,**num,*record_button,*delete_button;
-    //QGridLayout **glayout;
-    //QMediaPlayer *player;
 protected:
-    //void event(QEvent *event);
     void keyPressEvent(QKeyEvent *);
     void newgame();
     void pause();

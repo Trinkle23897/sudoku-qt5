@@ -20,20 +20,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     select_x=select_y=0;level=1;stage=0;history_temp=-1;wrongstate=0;state=0;
-    //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     ui->setupUi(this);
+    //set blue button
     ui->pushButton->installEventFilter(this);
     ui->pushButton_2->installEventFilter(this);
     ui->pushButton_3->installEventFilter(this);
     ui->pushButton->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_2->setFocusPolicy(Qt::NoFocus);
     ui->pushButton_3->setFocusPolicy(Qt::NoFocus);
+    //set timer
     Timer=new QTimer;
     Timerecord=new QTime(0,0,0,0);
     ui->timer->setDigitCount(8);
     ui->timer->setSegmentStyle(QLCDNumber::Flat);
     ui->timer->display(Timerecord->toString("hh:mm:ss"));
     connect(Timer,SIGNAL(timeout()),this,SLOT(timeupdate()));
+    //set number button
     num=new QPushButton*[10];
     for(int i=1,cnt=1;i<=3;++i)
         for(int j=1;j<=3;++j,++cnt)
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->gridLayout_2->addWidget(num[cnt],i-1,j-1,1,1);
             connect(num[cnt],SIGNAL(clicked(bool)),this,SLOT(on_num_clicked()));
         }
+    //set mark button and delete button
     QIcon icon,icon2;
     icon.addFile(QStringLiteral(":/fig/mark"));
     icon2.addFile(":fig/xxx");
@@ -68,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    delete_button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     connect(delete_button,SIGNAL(clicked(bool)),this,SLOT(on_del_button_clicked()));
     ui->gridLayout_2->addWidget(delete_button,3,0,1,1);
+    //set tablewidget
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableWidget->setFocusPolicy(Qt::NoFocus);
     ui->tableWidget->setColumnCount(15);
@@ -82,12 +86,14 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tableWidget->setRowHeight(i,44);
         ui->tableWidget->setColumnWidth(i,44);
     }
+    //set bold line qwq
     ui->tableWidget->setRowHeight(0,1);ui->tableWidget->setColumnWidth(0,1);
     ui->tableWidget->setRowHeight(4,1);ui->tableWidget->setColumnWidth(4,1);
     ui->tableWidget->setRowHeight(5,1);ui->tableWidget->setColumnWidth(5,1);
     ui->tableWidget->setRowHeight(9,1);ui->tableWidget->setColumnWidth(9,1);
     ui->tableWidget->setRowHeight(10,1);ui->tableWidget->setColumnWidth(10,1);
     ui->tableWidget->setRowHeight(14,1);ui->tableWidget->setColumnWidth(14,1);
+    //set 81 button
     button=new QPushButton**[9];
     for(int i=0;i<9;++i)
     {
@@ -114,6 +120,7 @@ MainWindow::MainWindow(QWidget *parent) :
             button[i][j]->setFocusPolicy(Qt::NoFocus);
         }
     }
+    //set media player
 //    QDir dir;
     player=new QMediaPlayer;
     player->setMedia(QUrl("qrc:/fig/LuvLetter.wav"));//dir.currentPath()+"/../sudoku/LuvLetter.wav"));
@@ -139,6 +146,7 @@ void MainWindow::loadprob(int clear)
         }
     if(clear)
     {
+        //clear all history record
         history_temp=0;
         history.clear();history.append(m);
         hx.clear();hx.append(select_x);
@@ -150,14 +158,15 @@ void MainWindow::loadprob(int clear)
 
 void MainWindow::showsol(int origin)
 {
-    if(origin)
+    if(origin)//no custom node
     {
         double c0=clock();
         sol.solve(prob,1);
         c0=(clock()-c0)/CLOCKS_PER_SEC*1000;
         ui->statusBar->showMessage(QStringLiteral("Solved. Using %1 ms").arg(c0));
     }
-    else if(wrongstate)
+    else //custom mode
+    if(wrongstate)
     {
         ui->statusBar->showMessage("No solution!");
         return;
@@ -199,7 +208,9 @@ void MainWindow::showsol(int origin)
 }
 
 void MainWindow::newgame()
-{//level=1;stage=1;
+{
+    //init game
+    //level=1;stage=1;
     if(level==1){
         if(stage==1)      prob.init("369.5247885.6749317143.826568392715459741682..21835697138769.4224.5837199.52413.6");
         else if(stage==2) prob.init("...2..5.32.37569..59..317.21349278569.56.34.16821453977.956..34..13726.93.8..9...");
@@ -232,7 +243,7 @@ void MainWindow::newgame()
     timerstart();
 }
 
-QString MainWindow::chg012s(int x)
+QString MainWindow::chg012s(int x)//change binary number into string
 {
     QString s;int cnt=0;
     if(sol.calc(x)==1)
@@ -447,7 +458,7 @@ void MainWindow::addnumber(int num)
             }
         }
     }
-    else
+    else//custom mode
     {
         int tmp1=prob.m[select_x][select_y],tmp2=m.m[select_x][select_y];
         prob.m[select_x][select_y]=num;
@@ -465,7 +476,7 @@ void MainWindow::addnumber(int num)
 
 void MainWindow::deletegrid()
 {
-    if(level==0){
+    if(level==0){//custom mode
         prob.m[select_x][select_y]=0;
         m.m[select_x][select_y]=0;
     }
