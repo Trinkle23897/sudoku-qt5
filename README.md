@@ -16,3 +16,5 @@ make -j4
 Windows/Mac:
 
 Use qtcreator ...qwq
+
+![](sudoku/pic/status.png)
