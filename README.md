@@ -1,5 +1,8 @@
 # sudoku-qt5
-sudoku game with qt5
+
+Sudoku game with qt5
+
+For more detail, please see sudoku/sudoku.pdf
 
 Ubuntu:
 
